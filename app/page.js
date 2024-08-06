@@ -1,95 +1,120 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client'
 
-export default function Home() {
+import * as React from 'react';
+
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
+//import { Container, Row, Col } from 'react-bootstrap';
+import { Box, AppBar, Toolbar, Button, Container, Typography } from '@mui/material';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation} from 'react-router-dom';
+
+import SignOut from "./SignOut";
+import Login from "./Login";
+import SignUp from "./SignUp";
+import ProtectedRoute from "./ProtectedRoute";
+import Tracker from "./Tracker";
+import { UserAuthContextProvider } from "./UserAuthContext";
+
+function Background() {
+  const location = useLocation();
+  
+  // Only show background on the landing page
+  const isLandingPage = location.pathname === '/';
+
+  if (!isLandingPage) return null;
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <React.Fragment>
+      <img
+        src="/kitchen.jpg" // Replace with your image path
+        alt="Description of image"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          objectFit: 'cover',
+          zIndex: -2,
+          opacity: 0.5,
+        }}
+      />
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: 'rgba(210,105,30, 0.7)', // Orange tint with 50% opacity
+          mixBlendMode: 'overlay',
+          objectFit: 'Cover',
+          zIndex: -2,
+          pointerEvents: 'none',
+        }}
+      />
+      <Typography
+        variant="h1"
+        style={{
+          position: 'fixed',
+          top: '40%',
+          left: '30%',
+          transform: 'translate(-50%, -50%)',
+          color: 'white',
+          fontWeight: 'regular',
+          fontFamily: 'Roboto',
+          padding: '10px',
+          zIndex: 0,
+        }}
+      >
+        Pantry Tracker
+      </Typography>
+      <Typography
+        variant="h5"
+        style={{
+          position: 'fixed',
+          top: '50%',
+          left: '39.5%',
+          transform: 'translate(-50%, -50%)',
+          color: 'white',
+          fontWeight: 'regular',
+          fontFamily: 'Roboto',
+          textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+          padding: '10px',
+          zIndex: 0,
+        }}
+      >
+        Get Started Today using the Pantry Tracker, which helps you stay on top of your pantry items
+      </Typography>
+    </React.Fragment>
+  );
+}
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+export default function Page() {
+  return (
+    <Router>
+      <AppBar position="static">
+        <Toolbar sx={{ backgroundColor: 'rgba(204, 102, 0)' }}>
+          <Button color="inherit" component={Link} to="/">Home</Button>
+          <Button color="inherit" component={Link} to="/Login">Login</Button>
+          <Button color="inherit" component={Link} to="/SignUp">Sign Up</Button>
+          <Button color="inherit" component={Link} to="/Tracker">Free Trial</Button>
+        </Toolbar>
+      </AppBar>
+      <Container sx={{ position: 'relative', overflow: 'hidden' }}>
+        <Background />
+        <UserAuthContextProvider>
+          <Routes>
+            <Route path="/" element={<page />}/>
+            <Route path="/Login" element={<Login />} />
+            <Route path="/SignUp" element={<SignUp />} />
+            <Route path="/Tracker" element={<Tracker />} />
+          </Routes>
+        </UserAuthContextProvider>
+      </Container>
+    </Router>
   );
 }
