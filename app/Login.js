@@ -56,7 +56,7 @@ const Login = () => {
         <hr />
       </div>
       <div className="p-4 box mt-3 text-center">
-        Don't have an account? <Link to="/SignUp">Sign up</Link>
+        Don&apos;t have an account? <Link to="/SignUp">Sign up</Link>
       </div>
     </>
   );
