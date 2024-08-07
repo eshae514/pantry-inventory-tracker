@@ -25,6 +25,8 @@ const SignUp = () => {
   return (
     <>
       <div className="p-4 box">
+        <br/>
+        <br/>
         <h2 className="mb-3">Firebase/ React Auth Signup</h2>
         
         {error && <Alert variant="danger">{error}</Alert>}
